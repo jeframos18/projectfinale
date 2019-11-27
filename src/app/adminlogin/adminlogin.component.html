@@ -1,0 +1,18 @@
+<html>
+  <body>  
+  ``<form (submit)="getAdmin(uname,psw)" class="was-validated">
+      <div class="form-group">
+      <h2><i class="fa fa-user" aria-hidden="true"></i>LOG IN</h2>
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input class="form-control mb-4" type="text" placeholder="Enter Username" #usrname="ngModel" name="uname" [(ngModel)]="uname" required>
+        <span class="invalid" *ngIf="usrname.invalid && usrname.touched">This field is required</span><br>
+        <label for="psw"><b>Password</b></label>
+        <input class="form-control mb-4" type="password" placeholder="Enter Password" #pass="ngModel" name="psw" [(ngModel)]="psw" required>
+        <span class="invalid" *ngIf="pass.invalid && pass.touched">This field is required</span><br>
+        <button type="submit">Login</button>
+      </div>
+      </div>
+    </form>
+  </body>  
+</html>

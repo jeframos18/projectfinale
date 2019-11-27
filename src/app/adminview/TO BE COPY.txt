@@ -1,0 +1,290 @@
+<html>
+        <nav class="nav">
+            <ul>
+              <li><a href="#">Home</a></li>
+              
+              <div class="searh-form">
+                <li><a href="#login">Logout</a></li>
+                <input type="text" id="search_text" placeholder="Search by Title"
+      style="width:300px;" [(ngModel)]="searchTerm"/>
+              </div>
+            </ul>
+        </nav>
+    
+
+  
+<!-- <div class="add"> <button (click)="showSummary=true">Add Movie</button></div> -->
+<div class="add"> <button (click)="addFormToggle()">Add Movie</button></div>
+
+
+<!-- For adding -->
+<div class="content" *ngIf="addToggle">
+  <div class="box">
+        <button id="close" (click)="addToggle=false">x</button>    
+    <h2>Add Movie</h2>
+        <form #login="ngForm" id="addacc">
+            <label>Title</label>
+            <input id="addinput" #title="ngModel" required placeholder="Movie Title"
+            [class.invalid] ="title.invalid && title.touched" type="text" [(ngModel)]="movieTitle" name="movieTitle" required>
+            <span class="span1" *ngIf="title.invalid && title.touched">This field is required!</span>
+            
+            <br><label>Photo</label>
+            <input id="addinput" #photo="ngModel" required placeholder="Photo"
+            [class.invalid] ="photo.invalid && photo.touched" type="text" [(ngModel)]="moviePhoto" name="moviePhoto" required>
+            <span class="span1" *ngIf="photo.invalid && photo.touched">This field is required!</span>
+          
+            <br><label>Director</label>
+            <input id="addinput" #director="ngModel" required placeholder="Director"
+            [class.invalid] ="director.invalid && director.touched" type="text" [(ngModel)]="movieDirector" name="movieDirector" required >
+          
+            <label>Description</label>
+            <textarea id="addinput" #description="ngModel" required placeholder="Description"
+            [class.invalid] ="description.invalid && description.touched" type="text" [(ngModel)]="movieDescription" name="movieDescription"required ></textarea> 
+            <span class="span1" *ngIf="description.invalid && description.touched">This field is required!</span>
+            <br>
+            <label>Date of Showing</label>
+            <input id="addinput" #date="ngModel" required placeholder="Date of Showing"
+            [class.invalid] ="date.invalid && date.touched" type="date" [(ngModel)]="movieDate" name="movieDate" required>
+            <span class="span1" *ngIf="date.invalid && date.touched">This field is required!</span>
+            <br> 
+            <label>Trailer</label>
+            <input id="addinput" #new="ngModel" required placeholder="Trailer"
+            [class.invalid] ="new.invalid && new.touched" type="text" [(ngModel)]="movieTrailer" name="movieTrailer" required>
+            <span class="span1" *ngIf="new.invalid && new.touched">This field is required!</span>
+            <br>              
+            <button id="btn" (click)="addMovie();" >Add</button>
+        </form>
+</div>
+</div>
+
+<div class="content" *ngIf="movieToggle">
+  <div class="box"> 
+    <button id="close" (click)="movieToggle=false">x</button>    
+    <h2></h2>
+    <form #login="ngForm" id="addacc">
+      <td id="dtitle">{{editTitle}}</td><span></span>
+      <td><img src="assets/images/{{editPhoto}}"></td><span></span>
+    <td>{{editDirector}}</td><span></span>
+      <td>{{editDescription}}</td><span></span>
+      <td>{{editDateShow | date:'shortDate'}}
+      </td><span></span>
+      <td><iframe width="420" height="315" src="{{editTrailer}}"></iframe></td><span></span>
+    </form>
+</div>
+</div>
+
+
+
+<div class="content" *ngIf="updateToggle">
+    <div class="box"> 
+      <button id="close" (click)="updateToggle=false">x</button>    
+      <h2>Update Movie</h2>
+      <form #login="ngForm" id="addacc">
+          
+          <label>Title</label>
+          <input id="addinput" #title="ngModel" required placeholder="Movie Title"
+          [class.invalid] ="title.invalid && title.touched" type="text" [(ngModel)]="editTitle" value ="editTitle" name="editTitle" required>
+          <span *ngIf="title.invalid">This field is required!</span>
+          {{editTitle}}
+          <td><img src="assets/images/{{editPhoto}}">
+          <br>
+          <label>Photo</label>
+          <input id="addinput" #photo="ngModel" required placeholder="Photo"
+          [class.invalid] ="photo.invalid && photo.touched" type="text" [(ngModel)]="editPhoto" value="editPhoto" name="editPhoto" >
+          <br>
+          <label>Director</label>
+          <input id="addinput" #director="ngModel" required placeholder="Director"
+          [class.invalid] ="director.invalid && director.touched" type="text" [(ngModel)]="editDirector" value ="editDirector" name="editDirector" >
+          <br>
+          <label>Description</label>
+          <input id="addinput" #description="ngModel" required placeholder="Director"
+          [class.invalid] ="description.invalid && description.touched" type="text" [(ngModel)]="editDescription" value ="editDescription" name="editDescription" >
+          <br>
+          <label>Date of Showing</label>
+          <input id="addinput" #date="ngModel" required placeholder="Date of Showing"
+          [class.invalid] ="date.invalid && date.touched" type="date" [(ngModel)]="editDate" value ="editDate" name="editDate">
+          <br> `    
+          <label>Trailer</label>
+          <input id="addinput" #new="ngModel" required placeholder="Trailer"
+          [class.invalid] ="new.invalid && new.touched" type="text" [(ngModel)]="editTrailer" value ="editTrailer" name="editTrailer">
+          <br>         
+          <button id="btn "(click)="updateMovie()">Update</button>
+      </form>
+  </div>
+</div>
+
+
+
+
+<hr>
+ <div class="pinakalaman">
+    <div id="movie_list" *ngFor="let movie of movies | movieFilter:searchTerm; let i = index">
+      
+      
+        <td><img src="assets/images/{{movie.image}}"></td><span></span>
+      <td id="dtitle">{{movie.title}}</td><span></span>
+      <!-- <td>{{movie.director}}</td><span></span>
+      <td>{{movie.description}}</td><span></span>
+      <td>{{movie.dateShow | date:'shortDate'}}
+      </td><span></span>
+      <td>{{movie.trailer}}</td><span></span> -->
+      <td class="td">
+          <button (click)="movieFormToggle(movie._id)" class="update" [disabled]="studentAge=='' || studentName==''" >View</button>
+        <button (click)="updateFormToggle(movie._id)" class="update" [disabled]="studentAge=='' || studentName==''" >Update</button>
+        <button (click)="deleteMovie(movie._id)" class="delete">Delete</button>
+      </td>
+    </div>
+ </div>
+
+ </html>  
+
+
+
+
+
+
+
+component
+
+import { Component, OnInit } from '@angular/core';
+import { Movie } from '../movie';
+import { AdminService} from '../admin.service';
+import {Router} from '@angular/router';
+@Component({
+  selector: 'app-adminview',
+  templateUrl: './adminview.component.html',
+  styleUrls: ['./adminview.component.css']
+})
+export class AdminviewComponent implements OnInit {
+  searchTerm: String;
+  private movies:Movie[];
+  private movieUpdate:Movie[];
+  private movieTitle: String;
+  private movieDirector: String;
+  private moviePhoto: String;
+  private movieDate: Date;
+  private movieTrailer: String;
+  private movieDescription: String; 
+  private movieID; 
+  editTitle;
+  editDirector;
+  editPhoto;
+  editDate;
+  editTrailer;
+  editDescription;
+  addToggle = false;
+  updateToggle = false;
+  movieToggle = false;
+
+  constructor(private adminService: AdminService, private router: Router) { }
+
+  ngOnInit() {
+    this.getMovies();
+  }
+  getMovies(){
+    this.adminService.getMovies().subscribe((data)=>{
+        this.movies = data;
+      }
+    )
+  }
+  viewMovie(id,i){
+    this.router.navigate(['details/:id']);
+    this.movieID = id;
+    this.adminService.getMovie(id).subscribe((data)=>{
+    this.movieUpdate = data;
+   // alert(this.movieUpdate);
+   this.movieUpdate.forEach(mov =>{
+    this.editDirector = mov.director;
+    this.editTitle = mov.title;
+    this.editPhoto = mov.image;
+    this.editDate = mov.dateShow;
+    this.editDescription = mov.description;
+    this.editTrailer = mov.trailer;
+  })
+  }) 
+  }
+  
+
+  addFormToggle(){
+    this.addToggle = !this.addToggle;
+  }
+
+  updateFormToggle(id,i){
+    this.updateToggle = !this.updateToggle;
+    this.movieID = id;
+    this.adminService.getMovie(id).subscribe((data)=>{
+    this.movieUpdate = data;
+   // alert(this.movieUpdate);
+   this.movieUpdate.forEach(mov =>{
+    this.editDirector = mov.director;
+    this.editTitle = mov.title;
+    this.editPhoto = mov.image;
+    this.editDate = mov.dateShow;
+    this.editDescription = mov.description;
+    this.editTrailer = mov.trailer;
+  })
+  })
+    
+  }
+
+  movieFormToggle(id,i){
+    this.movieToggle = !this.movieToggle;
+    this.movieID = id;
+    this.adminService.getMovie(id).subscribe((data)=>{
+    this.movieUpdate = data;
+   // alert(this.movieUpdate);
+   this.movieUpdate.forEach(mov =>{
+    this.editDirector = mov.director;
+    this.editTitle = mov.title;
+    this.editPhoto = mov.image;
+    this.editDate = mov.dateShow;
+    this.editDescription = mov.description;
+    this.editTrailer = mov.trailer;
+  })
+  })
+    
+  }
+
+
+
+  addMovie(){
+    const movie = new Movie();
+    movie.title = this.movieTitle;
+    movie.director = this.movieDirector;
+    movie.image = this.moviePhoto;
+    movie.description = this.movieDescription;
+    movie.dateShow = this.movieDate;
+    movie.trailer = this.movieTrailer;
+    this.adminService.addMovie(movie).subscribe((data)=>{
+        console.log(data);  
+        this.getMovies();
+      }
+    )
+    this.addFormToggle();
+  }
+
+  deleteMovie(id){
+    if(confirm("Do you really want to delete this movie?")){
+    this.adminService.deleteMovie(id).subscribe((data)=>{
+      console.log(data);
+      this.getMovies();
+    })
+    }
+  }
+
+  updateMovie(){
+    const movie = new Movie();
+    movie.title = this.editTitle;
+    movie.director = this.editDirector;
+    movie.image = this.editPhoto;
+    movie.description = this.editDescription;
+    movie.dateShow = this.editDate;
+    movie.trailer = this.editTrailer;
+       this.adminService.updateMovie(movie, this.movieID).subscribe((data)=>{
+        console.log(data);
+        this.getMovies();
+      })
+  }
+}
+
+

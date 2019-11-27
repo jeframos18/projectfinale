@@ -1,0 +1,126 @@
+<html>
+<body>
+    <div class="container header">
+        <img src="assets/images/logo1.png" class="logo">
+        <input type="text" id="search"  placeholder="Search by Title"
+        style="width:300px;" [(ngModel)]="searchTerm"/>
+        <a routerLink="/home" routerLinkActive="linkActive" class="header-btn"><i class="fa fa-sign-in"></i>Logout</a>
+        <button (click)="addFormToggle()"  onclick="document.getElementById('id02').style.display='block'" class="header-btn"><i class="fa fa-plus"></i>Add Movie</button>
+      </div>
+       <div class="container series">
+          <h3></h3>
+          <div class="rower">
+                <div class="list" id="imgsetting" *ngFor="let movie of movies | movieFilter:searchTerm; let i = index">
+                    <a (click)="viewFormToggle(movie._id)"><img src="assets/images/{{movie.image}}"></a>
+                    <br>
+                    <button (click)="updateFormToggle(movie._id)" class="btn btn-outline-primary btn-lg" onclick="document.getElementById('id03').style.display='block'">Update</button>
+                    <button (click)="deleteMovie(movie._id)" class="btn btn-outline-danger btn-lg">Delete</button>
+                  </div>
+              </div>      
+          </div>
+       
+          
+
+ 
+<div class="container movie-details" *ngIf="viewToggle">
+  <div class="row">
+    
+    <div class="col-md-6 left-box">
+       <h1> {{editTitle}}</h1>
+      <p>{{editDirector}}</p>
+      <p>{{editDescription}}</p>
+    </div>
+        <div class="col-md-6 text-center">
+          <img src="assets/images/{{editPhoto}}" class="movie-img">
+        </div>
+
+        </div>
+
+  </div>
+      
+ 
+ </body>
+ </html>
+
+
+ <div id="id03" class="update-movie-modal">
+    <span onclick="document.getElementById('id03').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content"  #updateUserForm="ngForm">
+      \  <h1 class="modal-title">Update Movie</h1>
+        <div class="form-modal-container">
+            <label class="modal-label" for="signName">Name</label>
+            <input id="modal-input" #title="ngModel" required placeholder="Movie Title"
+          [class.invalid] ="title.invalid && title.touched" type="text" [(ngModel)]="editTitle" value ="editTitle" name="editTitle" required>
+          <span *ngIf="title.invalid">This field is required!</span>
+
+          <label>Photo</label>
+          <input id="modal-input" #photo="ngModel" required placeholder="Photo"
+          [class.invalid] ="photo.invalid && photo.touched" type="text" [(ngModel)]="editPhoto" value="editPhoto" name="editPhoto" >
+        
+          <label>Director</label>
+          <input id="modal-input" #director="ngModel" required placeholder="Director"
+          [class.invalid] ="director.invalid && director.touched" type="text" [(ngModel)]="editDirector" value ="editDirector" name="editDirector" >
+        
+          <label>Description</label>
+          <input id="modal-input" #description="ngModel" required placeholder="Director"
+          [class.invalid] ="description.invalid && description.touched" type="text" [(ngModel)]="editDescription" value ="editDescription" name="editDescription" >
+          
+          <label>Date of Showing</label>
+          <input id="modal-input" #date="ngModel" required placeholder="Date of Showing"
+          [class.invalid] ="date.invalid && date.touched" type="date" [(ngModel)]="editDate" value ="editDate" name="editDate">
+      
+          <label>Trailer</label>
+          <input id="modal-input" #new="ngModel" required placeholder="Trailer"
+          [class.invalid] ="new.invalid && new.touched" type="text" [(ngModel)]="editTrailer" value ="editTrailer" name="editTrailer">
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="document.getElementById('id03').style.display='none'" class="btn-cancel">Cancel</button>
+            <input type="submit" class="btn-save-update" onclick="document.getElementById('id03').style.display='none'" (click)="updateMovie()" >
+        </div>
+    </form> 
+</div>
+
+
+<div id="id02" class="update-movie-modal">
+    <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content"  #updateUserForm="ngForm">
+        <h1 class="modal-title">Add Movie</h1>
+        <div class="form-modal-container">
+            <label>Title</label>
+            <input id="modal-input" #title="ngModel" required placeholder="Movie Title"
+            [class.invalid] ="title.invalid && title.touched" type="text" [(ngModel)]="movieTitle" name="movieTitle" required>
+            <span class="span1" *ngIf="title.invalid && title.touched">This field is required!</span>
+            
+            <br><label>Photo</label>
+            <input id="modal-input" #photo="ngModel" required placeholder="Photo"
+            [class.invalid] ="photo.invalid && photo.touched" type="text" [(ngModel)]="moviePhoto" name="moviePhoto" required>
+            <span class="span1" *ngIf="photo.invalid && photo.touched">This field is required!</span>
+          
+            <br><label>Director</label>
+            <input id="modal-input" #director="ngModel" required placeholder="Director"
+            [class.invalid] ="director.invalid && director.touched" type="text" [(ngModel)]="movieDirector" name="movieDirector" required >
+          
+            <label>Description</label>
+            <textarea id="modal-input" #description="ngModel" required placeholder="Description"
+            [class.invalid] ="description.invalid && description.touched" type="text" [(ngModel)]="movieDescription" name="movieDescription"required ></textarea> 
+            <span class="span1" *ngIf="description.invalid && description.touched">This field is required!</span>
+            <br>
+            <label>Date of Showing</label>
+            <input id="modal-input" #date="ngModel" required placeholder="Date of Showing"
+            [class.invalid] ="date.invalid && date.touched" type="date" [(ngModel)]="movieDate" name="movieDate" required>
+            <span class="span1" *ngIf="date.invalid && date.touched">This field is required!</span>
+            <br> 
+            <label>Trailer</label>
+            <input id="modal-input" #new="ngModel" required placeholder="Trailer"
+            [class.invalid] ="new.invalid && new.touched" type="text" [(ngModel)]="movieTrailer" name="movieTrailer" required>
+            <span class="span1" *ngIf="new.invalid && new.touched">This field is required!</span>
+            <br>              
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="btn-cancel">Cancel</button>
+            <input type="submit" class="btn-save-update" onclick="document.getElementById('id02').style.display='none'" (click)="addMovie()" >
+        </div>
+    </form> 
+</div>
